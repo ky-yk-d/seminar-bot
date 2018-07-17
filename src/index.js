@@ -1,10 +1,5 @@
 const https = require('https');
 
-const opts = {
-  hostname: 'connpass.com',
-  path: '/api/v1/event/'
-};
-
 async function getResponse(opts, queries){
   let queryString = '?'; 
   queries.forEach((query, index) => {
@@ -23,13 +18,15 @@ async function getResponse(opts, queries){
       response.setEncoding('utf8');
       let body = '';
       response.on('data', (chunk)=>{
-        console.log('chunk:'. chunk);
+        console.log('chunk');
         body += chunk;
       });
       response.on('end', ()=>{
-        console.log('body:', body);
-        resolve(body);
-      })
+        console.log('typeof(body):', typeof(body));
+        bodyObj = JSON.parse(body);
+        console.log('body:', bodyObj);
+        resolve(bodyObj);
+      });
     }).on('error', (err)=>{
       console.log('error:', err);
       reject(err);
@@ -38,6 +35,13 @@ async function getResponse(opts, queries){
 };
 
 exports.handler = async (event)=>{
+  let opts = {
+    hostname: 'connpass.com',
+    path: '/api/v1/event/',
+    headers: {
+      'User-Agent': 'Node/8.10'  // TODO: 何を書くべきかを考える
+    }
+  };
   const queries = [
     {
       name: 'event_id',
