@@ -1,0 +1,27 @@
+{
+  "name": "seminar-bot",
+  "version": "1.0.0",
+  "description": "セミナー情報ボット",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "mocha": "mocha --require intelli-espower-loader"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ky-yk-d/seminar-bot.git"
+  },
+  "author": "ky-yk-d",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ky-yk-d/seminar-bot/issues"
+  },
+  "homepage": "https://github.com/ky-yk-d/seminar-bot#readme",
+  "devDependencies": {
+    "intelli-espower-loader": "^1.0.1",
+    "mocha": "^5.2.0",
+    "power-assert": "^1.6.0"
+  }
+}
