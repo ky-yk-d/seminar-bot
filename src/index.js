@@ -1,38 +1,4 @@
-const https = require('https');
-
-async function getResponse(opts, queries){
-  let queryString = '?'; 
-  queries.forEach((query, index) => {
-    queryString += query.name + '=' + query.value;
-    if(index !== queries.length-1){
-      queryString += '&';
-    }
-  });
-  opts.path += queryString;
-  console.log('path:', opts.path);
-  return new Promise((resolve, reject)=>{
-    let req = https.get(opts, (response)=>{
-      console.log('statusCode:', response.statusCode);
-      console.log('statusMessage:', response.statusMessage);
-      console.log('headers:', response.headers);
-      response.setEncoding('utf8');
-      let body = '';
-      response.on('data', (chunk)=>{
-        console.log('chunk');
-        body += chunk;
-      });
-      response.on('end', ()=>{
-        console.log('typeof(body):', typeof(body));
-        bodyObj = JSON.parse(body);
-        console.log('body:', bodyObj);
-        resolve(bodyObj);
-      });
-    }).on('error', (err)=>{
-      console.log('error:', err);
-      reject(err);
-    });
-  });
-};
+const Connpass = require('./connpass');
 
 exports.handler = async (event)=>{
   let opts = {
@@ -48,6 +14,6 @@ exports.handler = async (event)=>{
       value: '69821'
     }
   ];
-  let result = await getResponse(opts, queries);
+  let result = await Connpass.getResponse(opts, queries);
   return result;
 };
