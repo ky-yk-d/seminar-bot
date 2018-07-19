@@ -10,6 +10,21 @@ let opts = {
   }
 };
 
+describe('クエリ文字列生成', ()=>{
+  it('1つのクエリ文字列が取得できる', ()=>{
+    let queryObj = {
+      keyword: 'abc'
+    };
+    assert(Connpass.makeQueryString(queryObj) === 'keyword=abc');
+  });
+  it('1つのクエリ文字列（日本語）が取得できる。ただし、変換されていること。', ()=>{
+    let queryObj = {
+      keyword: 'ふりかえり'
+    };
+    assert(Connpass.makeQueryString(queryObj) !== 'keyword=ふりかえり');
+  })
+});
+
 describe('Connpassモジュールのテスト', ()=>{
 
   it('1つのクエリ文字列でデータが取得できる', async ()=>{
@@ -37,7 +52,6 @@ describe('Connpassモジュールのテスト', ()=>{
       }
     ]
     let result = await Connpass.getResponse(localOpts,queries);
-    console.log('---',result);
     assert(result.events[0].title !== '');
   });
 });

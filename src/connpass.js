@@ -1,4 +1,12 @@
 const https = require('https');
+const queryString = require('querystring');
+
+exports.makeQueryString = (q)=>{
+  // q.keyword = encodeURIComponent(q.keyword);
+  let str = queryString.stringify(q);
+  console.log(str);
+  return str;
+}
 
 exports.getResponse = async (opts, queries)=>{
   let queryString = '?'; 
