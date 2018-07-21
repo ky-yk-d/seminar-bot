@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "mocha": "mocha --require intelli-espower-loader"
+    "mocha": "mocha --require intelli-espower-loader",
+    "lint": "eslint src"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/ky-yk-d/seminar-bot#readme",
   "devDependencies": {
+    "eslint": "^5.2.0",
     "intelli-espower-loader": "^1.0.1",
     "mocha": "^5.2.0",
     "power-assert": "^1.6.0"

@@ -1,6 +1,6 @@
 const Connpass = require('./connpass');
 
-exports.handler = async (event)=>{
+exports.handler = async ()=>{
   let opts = {
     hostname: 'connpass.com',
     path: '/api/v1/event/',
