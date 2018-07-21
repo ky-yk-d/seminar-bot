@@ -2,35 +2,25 @@ const https = require('https');
 const queryString = require('querystring');
 
 exports.makeQueryString = (q)=>{
-  // q.keyword = encodeURIComponent(q.keyword);
-  let str = queryString.stringify(q);
-  console.log(str);
-  return str;
+  return '?' + queryString.stringify(q);
 }
 
 exports.getResponse = async (opts, queries)=>{
-  let queryString = '?'; 
-  queries.forEach((query, index) => {
-    queryString += encodeURIComponent(query.name) + '=' + encodeURIComponent(query.value);
-    if(index !== queries.length-1){
-      queryString += '&';
-    }
-  });
-  opts.path += queryString;
+  opts.path += this.makeQueryString(queries);
   console.log('path:', opts.path);
   return new Promise((resolve, reject)=>{
     let req = https.get(opts, (response)=>{
       console.log('statusCode:', response.statusCode);
       console.log('statusMessage:', response.statusMessage);
-      console.log('headers:', response.headers);
       response.setEncoding('utf8');
       let body = '';
+      let chunkCount = 0;
       response.on('data', (chunk)=>{
-        console.log('chunk');
+        chunkCount ++;
         body += chunk;
       });
       response.on('end', ()=>{
-        console.log('typeof(body):', typeof(body));
+        console.log('チャンクの個数',chunkCount);
         bodyObj = JSON.parse(body);
         console.log('1つめのイベント:', bodyObj.events[0].title);
         resolve(bodyObj);

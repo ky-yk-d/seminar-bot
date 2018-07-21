@@ -15,13 +15,23 @@ describe('クエリ文字列生成', ()=>{
     let queryObj = {
       keyword: 'abc'
     };
-    assert(Connpass.makeQueryString(queryObj) === 'keyword=abc');
+    assert(Connpass.makeQueryString(queryObj) === '?keyword=abc');
   });
   it('1つのクエリ文字列（日本語）が取得できる。ただし、変換されていること。', ()=>{
     let queryObj = {
       keyword: 'ふりかえり'
     };
-    assert(Connpass.makeQueryString(queryObj) !== 'keyword=ふりかえり');
+    assert(Connpass.makeQueryString(queryObj) !== '?keyword=ふりかえり');
+  });
+  it('2つのクエリ文字列が取得できる',()=>{
+    let queryObj = {
+      keyword: 'xyz',
+      keyword_or: [
+        'abc',
+        'def'
+      ]
+    };
+    assert(Connpass.makeQueryString(queryObj)=== '?keyword=xyz&keyword_or=abc&keyword_or=def');
   })
 });
 
@@ -29,28 +39,21 @@ describe('Connpassモジュールのテスト', ()=>{
 
   it('1つのクエリ文字列でデータが取得できる', async ()=>{
     let localOpts = Object.assign({},opts);
-    let queries = [
-      {
-        name: 'keyword',
-        value: 'ふりかえり'
-      }
-    ];
+    let queries = {
+      keyword: 'ふりかえり'
+    };
     let result = await Connpass.getResponse(localOpts, queries);
     assert(result.events[0].title !== '');
   });
 
   it('2つのクエリ文字列でデータが取得できる',async()=>{
     let localOpts = Object.assign({},opts);
-    let queries = [
-      {
-        name: 'keyword',
-        value: 'ふりかえり'
-      },
-      {
-        name: 'keyword',
-        value: '実践'
-      }
-    ]
+    let queries = {
+      keyword: [
+        'ふりかえり',
+        '実践'
+      ]
+    }
     let result = await Connpass.getResponse(localOpts,queries);
     assert(result.events[0].title !== '');
   });
