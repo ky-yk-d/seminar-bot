@@ -22,6 +22,8 @@ exports.getResponse = async (opts, queries)=>{
       response.on('end', ()=>{
         console.log('チャンクの個数',chunkCount);
         let bodyObj = JSON.parse(body);
+        console.log('検索結果件数:', bodyObj.results_available);
+        console.log('うち取得件数:', bodyObj.results_returned);
         console.log('1つめのイベント:', bodyObj.events[0].title);
         resolve(bodyObj);
       });

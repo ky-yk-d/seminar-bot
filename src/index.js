@@ -8,12 +8,15 @@ exports.handler = async ()=>{
       'User-Agent': 'Node/8.10'  // TODO: 何を書くべきかを考える
     }
   };
-  const queries = [
-    {
-      name: 'event_id',
-      value: '69821'
-    }
-  ];
+  const search = require('./configs/search');
+  console.log(search.words);
+  const queries = {
+    'count': 15,
+    'start': 1,
+    'ym': 201808,
+    'keyword': '東京都',
+    'keyword_or': search.words
+  };
   let result = await Connpass.getResponse(opts, queries);
   return result;
 };
