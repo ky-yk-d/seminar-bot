@@ -51,20 +51,26 @@ exports.getAll = async ()=>{
     keyword: '東京都',
     keyword_or: search.words
   };
-  let isToContinue = true;
+  let shouldContinue = true;
   let allResults = [];
-  while (isToContinue) {
-    let result = await this.getResponse(opts, queries);
-    allResults.push(...result.events);
-    console.log('results_start:',result.results_start);
-    console.log('results_available:',result.results_available);
-    console.log('results_returned:',result.results_returned);
-    if (result.results_start + result.results_returned > result.results_available){
-      isToContinue = false;
+  let connpassResponse;
+  while (shouldContinue) {
+    connpassResponse = await this.getResponse(opts, queries);
+    allResults.push(...connpassResponse.events);
+    if (gotAll(connpassResponse)){
+      shouldContinue = false;
     } else {
-      queries.start = result.results_start + result.results_returned;
+      queries.start = nextStart(connpassResponse);
     }
   }
   console.log('length:',allResults.length);
   return allResults;
+};
+
+const gotAll = (connpassResponse)=>{
+  return connpassResponse.results_start + connpassResponse.results_returned > connpassResponse.results_available;
+};
+
+const nextStart = (connpassResponse)=>{
+  return connpassResponse.results_start + connpassResponse.results_returned;
 };
