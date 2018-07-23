@@ -10,7 +10,7 @@ let opts = {
   }
 };
 
-describe('クエリ文字列生成', ()=>{
+describe.skip('クエリ文字列生成', ()=>{
   it('1つのクエリ文字列が取得できる', ()=>{
     let queryObj = {
       keyword: 'abc'
@@ -35,7 +35,7 @@ describe('クエリ文字列生成', ()=>{
   })
 });
 
-describe('Connpassモジュールのテスト', ()=>{
+describe.skip('Connpassモジュールのテスト', ()=>{
 
   it('1つのクエリ文字列でデータが取得できる', async ()=>{
     let localOpts = Object.assign({},opts);
@@ -56,5 +56,12 @@ describe('Connpassモジュールのテスト', ()=>{
     }
     let result = await Connpass.getResponse(localOpts,queries);
     assert(result.events[0].title !== '');
+  });
+});
+
+describe('getAllのテスト', ()=>{
+  it('全件取得できる', async()=>{
+    let allResult = await Connpass.getAll();
+    assert(allResult[0].title !== '');
   });
 });

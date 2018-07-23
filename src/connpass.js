@@ -33,3 +33,38 @@ exports.getResponse = async (opts, queries)=>{
     });
   });
 };
+
+exports.getAll = async ()=>{
+  let opts = {
+    hostname: 'connpass.com',
+    path: '/api/v1/event/',
+    headers: {
+      'User-Agent': 'Node/8.10'  // TODO: 何を書くべきかを考える
+    }
+  };
+  const search = require('./configs/search');
+  console.log(search.words);
+  const queries = {
+    count: 15,
+    start: 1,
+    ym: 201808,
+    keyword: '東京都',
+    keyword_or: search.words
+  };
+  let isToContinue = true;
+  let allResults = [];
+  while (isToContinue) {
+    let result = await this.getResponse(opts, queries);
+    allResults.push(...result.events);
+    console.log('results_start:',result.results_start);
+    console.log('results_available:',result.results_available);
+    console.log('results_returned:',result.results_returned);
+    if (result.results_start + result.results_returned > result.results_available){
+      isToContinue = false;
+    } else {
+      queries.start = result.results_start + result.results_returned;
+    }
+  }
+  console.log('length:',allResults.length);
+  return allResults;
+};

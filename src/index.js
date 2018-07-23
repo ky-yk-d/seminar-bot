@@ -11,7 +11,7 @@ exports.handler = async ()=>{
   const search = require('./configs/search');
   console.log(search.words);
   const queries = {
-    'count': 15,
+    'count': 100,
     'start': 1,
     'ym': 201808,
     'keyword': '東京都',
