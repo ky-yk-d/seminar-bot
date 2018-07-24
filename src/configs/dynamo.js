@@ -1,0 +1,1 @@
+exports.tableName = 'seminar-bot';

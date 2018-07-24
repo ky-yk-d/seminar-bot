@@ -62,6 +62,10 @@ describe.skip('Connpassモジュールのテスト', ()=>{
 describe('getAllのテスト', ()=>{
   it('全件取得できる', async()=>{
     let allResult = await Connpass.getAll();
+    allResult.forEach((e,index)=>{
+      console.log(index+1,':', e.title);
+      console.log('updated:', e.updated_at);
+    })
     assert(allResult[0].title !== '');
   });
 });
