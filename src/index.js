@@ -21,12 +21,10 @@ exports.handler = async ()=>{
   };
   */
   let result = await Connpass.getAll();
-  /*
-  result.forEach(async (element)=> {
-    let res = await dynamo.put(element);
+  for (let i = 0; i < result.length ; i++){ // array.forEach()はawaitに対応していないため
+    let res = await dynamo.put(result[i]);
     console.log(res);
-  });
-  */
-  await dynamo.put(result[1]);
+  }
+  // await dynamo.put(result[1]);
   return 'done';
 };
