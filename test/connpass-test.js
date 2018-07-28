@@ -61,7 +61,16 @@ describe.skip('Connpassモジュールのテスト', ()=>{
 
 describe('getAllのテスト', ()=>{
   it('全件取得できる', async()=>{
-    let allResult = await Connpass.getAll();
+    const search = require('../src/configs/search');
+    console.log(search.words);
+    const queries = {
+      count: 100,
+      start: 1,
+      ym: 201808,
+      keyword: '東京都',
+      keyword_or: search.words
+    };
+    let allResult = await Connpass.getAll(queries);
     allResult.forEach((e,index)=>{
       console.log(index+1,':', e.title);
       console.log('updated:', e.updated_at);

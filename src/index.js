@@ -20,7 +20,16 @@ exports.handler = async ()=>{
     'keyword_or': search.words
   };
   */
-  let result = await Connpass.getAll();
+  const search = require('./configs/search');
+  console.log(search.words);
+  const queries = {
+    count: 100,
+    start: 1,
+    ym: 201808,
+    keyword: '東京都',
+    keyword_or: search.words
+  };
+  let result = await Connpass.getAll(queries);
   for (let i = 0; i < result.length ; i++){ // array.forEach()はawaitに対応していないため
     let res = await dynamo.put(result[i]);
     console.log(res);
