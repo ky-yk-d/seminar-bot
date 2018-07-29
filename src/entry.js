@@ -8,7 +8,7 @@ const queries = {
   start: 1,
   ym: 201808,
   keyword: '東京都',
-  keyword_or: 'アジャイル'
+  keyword_or: search.words
 };
 
 exports.handler = async () => {
@@ -22,13 +22,9 @@ exports.handler = async () => {
   const lambda = new AWS.Lambda();
   const params = {
     FunctionName: targetLambdaArn,
-    // FunctionName: 'seminar-bot',
     Payload: JSON.stringify(queries)
   };
-  console.log(new Date());
   let done = lambda.invoke(params).promise();
-  console.log(done);
-  console.log(new Date());
   return done;
 };
 
