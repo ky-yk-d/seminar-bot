@@ -1,7 +1,8 @@
 const Connpass = require('./connpass');
 const dynamo = require('./dynamo');
 
-exports.handler = async ()=>{
+exports.handler = async (event)=>{
+  console.log(event);
   /*
   let opts = {
     hostname: 'connpass.com',
