@@ -21,12 +21,14 @@ exports.handler = async () => {
   console.log(targetLambdaArn);
   const lambda = new AWS.Lambda();
   const params = {
-    // FunctionName: targetLambdaArn,
-    FunctionName: 'seminar-bot',
+    FunctionName: targetLambdaArn,
+    // FunctionName: 'seminar-bot',
     Payload: JSON.stringify(queries)
   };
-  console.log('JSON',JSON.stringify(params));
-  let lambdaCallback = await lambda.invoke(params);
-  return 'done';
+  console.log(new Date());
+  let done = lambda.invoke(params).promise();
+  console.log(done);
+  console.log(new Date());
+  return done;
 };
 
