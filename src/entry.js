@@ -2,7 +2,7 @@
 
 const AWS = require('aws-sdk');
 
-exports.handler = async () => {
+exports.handler = () => {
   const targetLambdaArn = process.env.TARGET_LAMBDA_ARN;
 
   if (!targetLambdaArn) {
@@ -37,10 +37,18 @@ exports.handler = async () => {
     queries.keyword_or = element;
     const params = {
       FunctionName: targetLambdaArn,
+      InvocationType: 'Event',
       Payload: JSON.stringify(queries)
     };
     let done = lambda.invoke(params).promise();
-    console.log(index,done);
+    console.log(done);
+    done.then(
+      (res)=>{
+        console.log(index,res);
+      },
+      (error)=>{
+        console.log('Error', index, error);
+      });
   });
   return 'endOfIndex';
 };
