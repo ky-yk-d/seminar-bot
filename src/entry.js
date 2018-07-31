@@ -1,15 +1,6 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const search = require('./configs/search');
-console.log(search.words);
-const queries = {
-  count: 100,
-  start: 1,
-  ym: 201808,
-  keyword: '東京都',
-  keyword_or: search.words
-};
 
 exports.handler = async () => {
   const targetLambdaArn = process.env.TARGET_LAMBDA_ARN;
@@ -20,11 +11,37 @@ exports.handler = async () => {
   }
   console.log(targetLambdaArn);
   const lambda = new AWS.Lambda();
-  const params = {
-    FunctionName: targetLambdaArn,
-    Payload: JSON.stringify(queries)
+  // 検索ワード
+  const search = require('./configs/search');
+  let ArrayOfArrayOfWords = [[]];
+  let i = 0;
+  search.words.forEach((element, index)=>{
+    ArrayOfArrayOfWords[i].push(element);
+    // console.log(i);
+    if (index % 10 === 9){
+      i++;
+      ArrayOfArrayOfWords.push([]);
+      console.log('i++', index);
+    }
+  });
+  console.log(ArrayOfArrayOfWords);
+  
+  const queries = {
+    count: 100,
+    start: 1,
+    ym: 201808,
+    keyword: '東京都',
+    keyword_or: []
   };
-  let done = lambda.invoke(params).promise();
-  return done;
+  ArrayOfArrayOfWords.forEach((element,index)=>{
+    queries.keyword_or = element;
+    const params = {
+      FunctionName: targetLambdaArn,
+      Payload: JSON.stringify(queries)
+    };
+    let done = lambda.invoke(params).promise();
+    console.log(index,done);
+  });
+  return 'endOfIndex';
 };
 
