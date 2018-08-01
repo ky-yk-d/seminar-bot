@@ -33,22 +33,24 @@ exports.handler = () => {
     keyword: '東京都',
     keyword_or: []
   };
-  ArrayOfArrayOfWords.forEach((element,index)=>{
-    queries.keyword_or = element;
-    const params = {
-      FunctionName: targetLambdaArn,
-      InvocationType: 'Event',
-      Payload: JSON.stringify(queries)
-    };
-    let done = lambda.invoke(params).promise();
-    console.log(done);
-    done.then(
-      (res)=>{
-        console.log(index,res);
-      },
-      (error)=>{
-        console.log('Error', index, error);
-      });
+  let locations = ['東京都', '千葉県', '神奈川県'];
+  locations.forEach((location)=>{
+    queries.keyword = location;
+    ArrayOfArrayOfWords.forEach((element,index)=>{
+      queries.keyword_or = element;
+      const params = {
+        FunctionName: targetLambdaArn,
+        InvocationType: 'Event', // 非同期呼び出し
+        Payload: JSON.stringify(queries)
+      };
+      lambda.invoke(params).promise().then(
+        (res)=>{
+          console.log(index,res);
+        },
+        (error)=>{
+          console.log('Error', index, error);
+        });
+    });
   });
   return 'endOfIndex';
 };
