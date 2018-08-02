@@ -18,6 +18,7 @@ exports.handler = () => {
   search.words.forEach((element, index)=>{
     ArrayOfArrayOfWords[i].push(element);
     // console.log(i);
+    // 検索ワードを10語ずつ配列の要素（配列）に詰める
     if (index % 10 === 9){
       i++;
       ArrayOfArrayOfWords.push([]);
@@ -33,7 +34,7 @@ exports.handler = () => {
     keyword: '東京都',
     keyword_or: []
   };
-  let locations = ['東京都', '千葉県', '神奈川県'];
+  let locations = search.locations;
   locations.forEach((location)=>{
     queries.keyword = location;
     ArrayOfArrayOfWords.forEach((element,index)=>{
@@ -48,7 +49,7 @@ exports.handler = () => {
           console.log(index,res);
         },
         (error)=>{
-          console.log('Error', index, error);
+          console.log('Error:', index, error);
         });
     });
   });

@@ -1,4 +1,10 @@
-exports.words= [
+exports.locations = [
+  '東京都',
+  '神奈川県',
+  '千葉県'
+];
+
+exports.words = [
   '機械学習',
   'machine+learning',
   'ディープラーニング',
@@ -6,7 +12,6 @@ exports.words= [
   'deep+learning',
   'python',
   'tensorflow',
-  /*
   'chainer',
   'pytoach',
   '自然言語',
@@ -59,5 +64,6 @@ exports.words= [
   '労務',
   // 'RPA',
   '働き方改革'
-  */
 ];
+
+
