@@ -1,1 +1,1 @@
-exports.tableName = 'seminar-bot';
+exports.tableName = 'seminar-bot2';
