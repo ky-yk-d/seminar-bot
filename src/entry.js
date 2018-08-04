@@ -19,7 +19,8 @@ exports.handler = () => {
     ArrayOfArrayOfWords[i].push(element);
     // console.log(i);
     // 検索ワードを10語ずつ配列の要素（配列）に詰める
-    if (index % 10 === 9){
+    const batchSize = search.batchSize;
+    if (index % batchSize === batchSize-1){
       i++;
       ArrayOfArrayOfWords.push([]);
       console.log('i++', index);

@@ -1,3 +1,5 @@
+exports.batchSize = 10;
+
 exports.locations = [
   '東京都',
   '神奈川県',
