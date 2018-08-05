@@ -17,11 +17,13 @@ exports.put = async (item) => {
         started_at: item.started_at,
         ended_at: item.ended_at,
         place: item.place
-      }
+      },
+      ConditionExpression: 'attribute_not_exists(event_id)'
     };
     console.log(params);
     dynamo.put(params, (err,data)=>{
       if (err) {
+        console.log('すでにデータが存在している');
         reject(err);
       } else {
         resolve(data);
