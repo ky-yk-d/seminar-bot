@@ -24,7 +24,11 @@ exports.getResponse = async (opts, queries)=>{
         let bodyObj = JSON.parse(body);
         console.log('検索結果件数:', bodyObj.results_available);
         console.log('うち取得件数:', bodyObj.results_returned);
-        console.log('1つめのイベント:', bodyObj.events[0].title);
+        if (bodyObj.results_returned !== 0){
+          console.log('1つめのイベント:', bodyObj.events[0].title);
+        } else {
+          console.log('取得件数が0件です');
+        }
         resolve(bodyObj);
       });
     }).on('error', (err)=>{

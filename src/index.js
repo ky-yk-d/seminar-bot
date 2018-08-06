@@ -4,9 +4,17 @@ const dynamo = require('./dynamo');
 exports.handler = async (queries)=>{
   console.log('Search Start:',queries);
   let result = await Connpass.getAll(queries);
+  let shouldNotify = true;
   for (let i = 0; i < result.length ; i++){ // array.forEach()はawaitに対応していないため
-    let res = await dynamo.put(result[i]).catch(()=>'通知済み');
+    shouldNotify = true;
+    let res = await dynamo.put(result[i]).catch(()=>{
+      shouldNotify = false;
+      return '通知済み';
+    });
     console.log('index.js:',result[i].title,':',res);
+    if(shouldNotify){
+      console.log('通知！:', result[i].title);
+    }
   }
   // await dynamo.put(result[1]);
   return 'done';
