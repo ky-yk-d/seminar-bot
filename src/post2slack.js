@@ -10,9 +10,9 @@ const options = {
   method: 'PUT'
 };
 
-exports.handler = async (body) => {
-  console.log(typeof(body));
-  console.log(body);
+exports.handler = async (eventObj) => {
+  console.log(typeof(eventObj));
+  console.log(eventObj);
   console.log(options);
   return new Promise((resolve, reject)=>{
     let res = https.request(options, (res)=>{
@@ -25,7 +25,10 @@ exports.handler = async (body) => {
       console.log('error:', e.stack);
       reject('error & rejected');
     });
-    res.write(JSON.stringify(body.title));
+    let body = {
+      text: eventObj.title
+    };
+    res.write(JSON.stringify(body));
     res.end();
   });
 };
