@@ -1,5 +1,3 @@
-// 環境変数'SlackPath'に'/services/...'と記載。
-
 const https = require('https');
 
 const options = {
@@ -12,7 +10,9 @@ const options = {
   method: 'PUT'
 };
 
-exports.handler = async (event, context, callback) => {
+exports.handler = async (body) => {
+  console.log(typeof(body));
+  console.log(body);
   console.log(options);
   return new Promise((resolve, reject)=>{
     let res = https.request(options, (res)=>{
@@ -20,16 +20,12 @@ exports.handler = async (event, context, callback) => {
     }).on('response',function(response){
       console.log('---response---');
       console.log(response);
-      callback(null, 'callback success!');
       resolve('success & resolved');
     }).on('error', function(e){
       console.log('error:', e.stack);
       reject('error & rejected');
     });
-    let body = {
-      text: 'Hello World!'
-    };
-    res.write(JSON.stringify(body));
+    res.write(JSON.stringify(body.title));
     res.end();
   });
 };
