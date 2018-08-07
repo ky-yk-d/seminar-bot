@@ -23,7 +23,7 @@ exports.put = async (item) => {
     console.log(params);
     dynamo.put(params, (err,data)=>{
       if (err) {
-        console.log('すでにデータが存在している');
+        console.log('すでにデータが存在している:',item.title);
         reject(err);
       } else {
         resolve(data);

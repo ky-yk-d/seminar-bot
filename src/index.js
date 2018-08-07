@@ -14,7 +14,7 @@ exports.handler = async (queries)=>{
       shouldNotify = false;
       return '通知済み';
     });
-    console.log('index.js:',result[i].title,':',res);
+    console.log('index.js:',result[i].title,':',res,'shouldNotify:', shouldNotify);
     if(shouldNotify){
       console.log('通知！:', result[i].title);
       const params = {
