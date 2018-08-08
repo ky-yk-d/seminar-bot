@@ -26,7 +26,7 @@ exports.handler = async (eventObj) => {
       reject('error & rejected');
     });
     let body = {
-      text: eventObj.title
+      text: '【新着】' + eventObj.title + ' \n ' + eventObj.event_url
     };
     res.write(JSON.stringify(body));
     res.end();
