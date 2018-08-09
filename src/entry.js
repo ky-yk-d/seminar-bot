@@ -1,6 +1,7 @@
 'use strict';
 
 const AWS = require('aws-sdk');
+const moment = require('./lib/moment');
 
 exports.handler = () => {
   const targetLambdaArn = process.env.TARGET_LAMBDA_ARN;
@@ -27,11 +28,15 @@ exports.handler = () => {
     }
   });
   console.log(ArrayOfArrayOfWords);
-  
+  let yms = [
+    parseInt(moment().format('YYYYMM'), 10),
+    parseInt(moment().format('YYYYMM'), 10) + 1,
+    parseInt(moment().format('YYYYMM'), 10) + 2
+  ];
   const queries = {
     count: 100,
     start: 1,
-    ym: 201808,
+    ym: yms,
     keyword: '東京都',
     keyword_or: []
   };
